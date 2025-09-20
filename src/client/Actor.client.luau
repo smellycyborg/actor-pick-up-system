@@ -133,7 +133,7 @@ Actor.OnUpdateActors:Connect(function(currentActors: any)
         else
             local actorModel = ActorClonesWorkspace:FindFirstChild(uniqueKey)
             if not actorModel then
-                addActor(uniqueKey, data.name)
+                addActor(uniqueKey, data)
             else
                 if data.moveToPosition ~= currentData.moveToPosition then
                     local actorHumanoid = actorModel:FindFirstChild("Humanoid", true) :: Humanoid
