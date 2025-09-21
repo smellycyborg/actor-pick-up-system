@@ -33,13 +33,11 @@ raycastParams.FilterType = Enum.RaycastFilterType.Include
 
 local ActorClonesWorkspace = Instance.new("Folder", Workspace)
 ActorClonesWorkspace.Name = "ActorClonesWorkspace"
-local ActorClonesReplicated = Instance.new("Folder", Workspace)
+local ActorClonesReplicated = Instance.new("Folder", ReplicatedStorage)
 ActorClonesReplicated.Name = "ActorClonesReplicated"
 
 local ActorBillboards = Instance.new("ScreenGui", playerGui)
 ActorBillboards.Name = "ActorBillboards"
-
-
 
 
 local function setBillboardText(billboard, data)
