@@ -1,4 +1,5 @@
 local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
@@ -12,6 +13,9 @@ local DEFAULT_MUTATE_CHANCE = 0.1
 
 local TimeElapsedPerActor = {}
 
+
+
+
 for i = 1, MAX_ACTORS do
     local uniqueKey = HttpService:GenerateGUID()
     local name = "Get Random Name"
@@ -21,6 +25,13 @@ for i = 1, MAX_ACTORS do
 
     Actor.Spawn(uniqueKey, name, mutation, size, position)
 end
+
+
+
+
+Players.PlayerAdded:Connect(function(player: Player)  
+    Actor.UpdateActors:FireClient(player, Actor.GetActors())
+end)
 
 RunService.PostSimulation:Connect(function(step: number)
     for uniqueKey, timeElapsed in Actor.GetActors() do
