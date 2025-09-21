@@ -64,7 +64,13 @@ local function addActor(uniqueKey: string, data: {[string]: any})
 
     local prompt = Instance.new("ProximityPrompt")
     prompt.Triggered:Connect(function(playerTriggered: Player)
+        if ActorsPickedUp[uniqueKey] then
+            return
+        end
+
         prompt.Enabled = false
+
+        ActorsPickedUp[uniqueKey] = playerTriggered.UserId
 
         if playerTriggered == player then
             Actor.TriggeredPrompt:FireServer()
