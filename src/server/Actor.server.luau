@@ -10,6 +10,7 @@ local Actor = require(Modules.Actor)
 local MAX_ACTORS = 30
 local DEFAULT_MAX_TIME = 300
 local DEFAULT_MUTATE_CHANCE = 0.1
+local SLOW_WALK_SPEED = 13
 
 local TimeElapsedPerActor = {}
 
@@ -31,6 +32,14 @@ end
 
 Players.PlayerAdded:Connect(function(player: Player)  
     Actor.UpdateActors:FireClient(player, Actor.GetActors())
+end)
+
+Actor.OnTriggeredPrompt:Connect(function(player)
+    local humanoid = player.Character 
+    and player.Character:FindFirstChild("Humanoid") :: Humanoid
+    if humanoid then
+        humanoid.WalkSpeed = SLOW_WALK_SPEED
+    end
 end)
 
 RunService.PostSimulation:Connect(function(step: number)

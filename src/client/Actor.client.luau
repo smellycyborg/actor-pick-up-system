@@ -66,6 +66,10 @@ local function addActor(uniqueKey: string, data: {[string]: any})
     prompt.Triggered:Connect(function(playerTriggered: Player)
         prompt.Enabled = false
 
+        if playerTriggered == player then
+            Actor.TriggeredPrompt:FireServer()
+        end
+
         ActorsPickedUp[uniqueKey] = playerTriggered.UserId
     end)
     prompt.Parent = actorModel.PrimaryPart

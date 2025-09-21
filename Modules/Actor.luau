@@ -55,5 +55,7 @@ Actor.UpdateActors = Instance.new("RemoteEvent", ReplicatedStorage)
 Actor.OnUpdateActors = Actor.UpdateActors.OnClientEvent
 Actor.DropActor = Instance.new("RemoteEvent", ReplicatedStorage)
 Actor.OnDropActor = Actor.UpdateActors.OnClientEvent
+Actor.TriggeredPrompt = Instance.new("RemoteEvent", ReplicatedStorage)
+Actor.OnTriggeredPrompt = Actor.TriggeredPrompt.OnServerEvent
 
 return Actor
