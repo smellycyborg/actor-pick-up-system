@@ -151,7 +151,7 @@ task.spawn(function()
 end)
 
 for i = 1, MAX_ACTOR_BILLBOARDS do
-    local clone = Billboards:WaitForChild("ActorBillboard")
+    local clone = Billboards:WaitForChild("ActorBillboard"):Clone()
     clone.Enabled = false
     clone.Parent = ActorBillboards
 end
