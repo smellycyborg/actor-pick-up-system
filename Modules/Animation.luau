@@ -31,10 +31,6 @@ function Animation.LoadCharacter(character: Model, uniqueKey: string)
             track.Stopped:Connect(function()
                 
             end)
-
-            track:GetMarkerReachedSignal("End"):Connect(function()
-                
-            end)
         end
     end
 end
