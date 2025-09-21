@@ -14,6 +14,7 @@ local OBJECT_AMOUNT = 30
 local MAX_ACTOR_BILLBOARDS = 30
 local ACTOR_MODELS_AMOUNT = 1
 local DEFAULT_DESPAWN_TIME = 300
+local SPAWN_ANIMATION_TIME = 6
 
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -155,7 +156,9 @@ Actor.OnUpdateActors:Connect(function(currentActors: any)
         else
             local actorModel = ActorClonesWorkspace:FindFirstChild(uniqueKey)
             if not actorModel then
-                addActor(uniqueKey, data)
+                task.delay(SPAWN_ANIMATION_TIME, function()
+                    addActor(uniqueKey, data)
+                end)
             else
                 if data.moveToPosition ~= currentData.moveToPosition then
                     local actorHumanoid = actorModel:FindFirstChild("Humanoid", true) :: Humanoid
