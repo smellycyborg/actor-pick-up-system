@@ -19,12 +19,17 @@ local SPAWN_ANIMATION_TIME = 6
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
+local BaseParts = Workspace:WaitForChild("BaseParts")
+
 local Actors = {}
 local ActorsPickedUp = {}
 local SpawnInfoPerActor = {}
 
 
 
+local filterTab = {}
+local raycastParams = RaycastParams.new()
+raycastParams.FilterType = Enum.RaycastFilterType.Include
 
 local ActorClonesWorkspace = Instance.new("Folder", Workspace)
 ActorClonesWorkspace.Name = "ActorClonesWorkspace"
@@ -223,5 +228,13 @@ RunService.PreSimulation:Connect(function(step: number)
         end
 
         actorModel:PivotTo(newCFrame)
+
+        if rootPart then
+            local raycastResult = Workspace:Raycast(rootPart.Position + Vector3.new(0, 10, 0), Vector3.new(0, -1, 0) * 100, raycastParams)
+            if raycastResult 
+            and raycastResult.Instance.Name == ("Base") then
+                Actor.TouchedBase:FireServer(actorKey)
+            end
+        end
     end
 end)
