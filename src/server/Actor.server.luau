@@ -34,11 +34,21 @@ Players.PlayerAdded:Connect(function(player: Player)
     Actor.UpdateActors:FireClient(player, Actor.GetActors())
 end)
 
-Actor.OnTriggeredPrompt:Connect(function(player)
+Actor.TriggeredPrompt.OnServerEvent:Connect(function(player: Player, uniqueKey: string)
     local humanoid = player.Character 
     and player.Character:FindFirstChild("Humanoid") :: Humanoid
     if humanoid then
         humanoid.WalkSpeed = SLOW_WALK_SPEED
+        Actor.PickUp:FireAllClients(player.UserId, uniqueKey)
+    end
+end)
+
+Actor.TouchedBase.OnServerEvent:Connect(function(player: Player, uniqueKey: string)
+    local humanoid = player.Character 
+    and player.Character:FindFirstChild("Humanoid") :: Humanoid
+    if humanoid then
+        humanoid.WalkSpeed = NORMAL_WALK_SPEED
+        Actor.Drop:FireAllClients(uniqueKey)
     end
 end)
 
