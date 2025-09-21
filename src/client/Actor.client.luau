@@ -187,7 +187,8 @@ RunService.PreSimulation:Connect(function(step: number)
         if not otherPlayer then
             continue
         end
-        local rootPart = otherPlayer.Character and otherPlayer.Character:FindFirstChild("HumanoidRootPart")
+        local rootPart = otherPlayer.Character 
+        and otherPlayer.Character:FindFirstChild("HumanoidRootPart")
         if not rootPart then
             continue
         end
