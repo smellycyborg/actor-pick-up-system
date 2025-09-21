@@ -1,10 +1,14 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
 
 local DEFAULT_STATE = "Idle"
 
 local Actor = {}
 
 local Actors: {[string]: {[string]: any}} = {}
+
+
+
 
 function Actor.Spawn(
     uniqueKey: string, 
@@ -26,7 +30,7 @@ function Actor.Spawn(
 
     Actors[uniqueKey] = data
 
-    Actor.UpdateActors:FireAllClients(Actors)
+    Actor.Update:FireAllClients(Actors)
 end
 
 function Actor.Despawn(uniqueKey: string)
@@ -36,7 +40,7 @@ function Actor.Despawn(uniqueKey: string)
 
     Actors[uniqueKey] = nil
 
-    Actor.UpdateActors:FireAllClients(Actors)
+    Actor.Update:FireAllClients(Actors)
 end
 
 function Actor.Mutate(uniqueKey: string, mutation: string)
@@ -46,18 +50,45 @@ function Actor.Mutate(uniqueKey: string, mutation: string)
 
     Actors[uniqueKey].mutation = mutation
 
-    Actor.UpdateActors:FireAllClients(Actors)
+    Actor.Update:FireAllClients(Actors)
 end
 
 function Actor.GetActors()
     return Actors or {}
 end
 
-Actor.UpdateActors = Instance.new("RemoteEvent", ReplicatedStorage)
-Actor.OnUpdateActors = Actor.UpdateActors.OnClientEvent
-Actor.DropActor = Instance.new("RemoteEvent", ReplicatedStorage)
-Actor.OnDropActor = Actor.UpdateActors.OnClientEvent
-Actor.TriggeredPrompt = Instance.new("RemoteEvent", ReplicatedStorage)
-Actor.OnTriggeredPrompt = Actor.TriggeredPrompt.OnServerEvent
+
+
+
+Actor.Update = nil
+Actor.PickUp = nil
+Actor.DropActor = nil
+Actor.TriggeredPrompt = nil
+
+if RunService:IsServer() then
+    -- on client events
+    Actor.Update = Instance.new("RemoteEvent", ReplicatedStorage)
+    Actor.Update.Name = "Update"
+    Actor.PickUp = Instance.new("RemoteEvent", ReplicatedStorage)
+    Actor.PickUp.Name = "PickUp"
+    Actor.Drop = Instance.new("RemoteEvent", ReplicatedStorage)
+    Actor.Drop.Name = "Drop"
+
+    -- on server events
+    Actor.TriggeredPrompt = Instance.new("RemoteEvent", ReplicatedStorage)
+    Actor.TriggeredPrompt.Name = "TriggeredPrompt"
+    Actor.TouchedBase = Instance.new("RemoteEvent", ReplicatedStorage)
+    Actor.TouchedBase.Name = "TouchedBase"
+elseif RunService:IsClient() then
+    Actor.OnUpdate = ReplicatedStorage:WaitForChild("Update").OnClientEvent
+    Actor.OnPickUp = ReplicatedStorage:WaitForChild("PickUp").OnClientEvent
+    Actor.OnDrop = ReplicatedStorage:WaitForChild("Drop").OnClientEvent
+
+    Actor.TriggeredPrompt = ReplicatedStorage:WaitForChild("TriggeredPrompt")
+    Actor.TouchedBase = ReplicatedStorage:WaitForChild("TouchedBase")
+end
+
+
+
 
 return Actor
