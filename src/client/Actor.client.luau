@@ -44,6 +44,7 @@ local function addActor(uniqueKey: string, data: {[string]: any})
 
     actorModel.Name = uniqueKey
     actorModel:ScaleTo(data.size)
+    actorModel:PivotTo(CFrame.new(data.position))
 
     local prompt = Instance.new("ProximityPrompt")
     prompt.Triggered:Connect(function(playerTriggered: Player)
