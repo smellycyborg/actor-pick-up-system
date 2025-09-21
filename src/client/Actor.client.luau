@@ -159,17 +159,26 @@ Actor.OnDropActor:Connect(function(uniqueKey: string)
     end
 end)
 
-Actor.OnUpdateActors:Connect(function(currentActors: any)  
+Actor.OnUpdate:Connect(function(currentActors: any)
+    if not next(Actors) then
+        Actors = currentActors
+    end
+
     for uniqueKey, data in Actors do
         local currentData = currentActors[uniqueKey]
         if not currentData then
             removeActor(uniqueKey)
         else
             local actorModel = ActorClonesWorkspace:FindFirstChild(uniqueKey)
-            if not actorModel then
+            if not actorModel 
+            and not Actors[uniqueKey].spawning then
+                Actors[uniqueKey].spawning = true
+
                 task.delay(SPAWN_ANIMATION_TIME, function()
                     addActor(uniqueKey, data)
                 end)
+
+                RunService.PreRender:Wait()
             else
                 if data.moveToPosition ~= currentData.moveToPosition then
                     local actorHumanoid = actorModel:FindFirstChild("Humanoid", true) :: Humanoid
