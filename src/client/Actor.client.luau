@@ -167,16 +167,22 @@ Players.PlayerRemoving:Connect(function(otherPlayer: Player)
     end
 end)
 
+Actor.OnPickUp:Connect(function(userId: number, uniqueKey: string)
     if ActorsPickedUp[uniqueKey] then
-        ActorsPickedUp[uniqueKey] = nil
+        return
+    end
 
-        local actorModel = ActorClonesWorkspace:FindFirstChild(uniqueKey)
-        if not actorModel then
-            return
-        end
+    local actorModel = ActorClonesWorkspace:FindFirstChild(uniqueKey)
+    if not actorModel then
+        return
+    end
 
-        actorModel.PrimaryPart.Anchored = false
+    local prompt = actorModel:FindFirstChild("ProximityPrompt", true)
+    prompt.RequiresLineOfSight = true
+    prompt.Enabled = false
 
+    ActorsPickedUp[uniqueKey] = userId
+end)
 
 Actor.OnDrop:Connect(function(uniqueKey: string)
     dropActor(uniqueKey)
