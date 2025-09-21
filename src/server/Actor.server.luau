@@ -20,19 +20,24 @@ local TimeElapsedPerActor = {}
 
 for i = 1, MAX_ACTORS do
     local uniqueKey = HttpService:GenerateGUID()
-    local name = "Get Random Name"
-    local mutation = "Get Random Mutation"
-    local size = "Get Random Size"
-    local position = "Get Random Position"
 
-    Actor.Spawn(uniqueKey, name, mutation, size, position)
+    local name = RunService:IsStudio() and "TestActor" or "Get Random Name"
+    local mutation = "Get Random Mutation"
+    local size = 1 -- TODO: Get Random Size
+    local position = Vector3.new(5, 5, 5) -- TODO: Get Random Position
+    local moveToPosition = Vector3.new(10, 5, 10) -- TODO:  Get Random Move To Position
+
+    TimeElapsedPerActor[uniqueKey] = 0
+
+    Actor.Spawn(uniqueKey, name, mutation, size, position, moveToPosition)
 end
 
 
 
 
-Players.PlayerAdded:Connect(function(player: Player)  
-    Actor.UpdateActors:FireClient(player, Actor.GetActors())
+Players.PlayerAdded:Connect(function(player: Player)
+    local currentActors = Actor.GetActors()
+    Actor.Update:FireClient(player, currentActors)
 end)
 
 Actor.TriggeredPrompt.OnServerEvent:Connect(function(player: Player, uniqueKey: string)
