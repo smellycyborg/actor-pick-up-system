@@ -8,6 +8,7 @@ local ActorModels = ReplicatedStorage:WaitForChild("ActorModels")
 local Billboards = ReplicatedStorage:WaitForChild("Billboards")
 
 local Actor = require(Modules:WaitForChild("Actor"))
+local Animation = require(Modules:WaitForChild("Animation"))
 
 local OBJECT_AMOUNT = 30
 local MAX_ACTOR_BILLBOARDS = 30
@@ -53,6 +54,8 @@ local function addActor(uniqueKey: string, data: {[string]: any})
     prompt.Parent = actorModel.PrimaryPart
 
     actorModel.Parent = ActorClonesWorkspace
+
+    Animation.LoadCharacter(actorModel, uniqueKey)
 
     local billboard = ActorBillboards:FindFirstChild("ActorBillboard")
     billboard.Name = uniqueKey
