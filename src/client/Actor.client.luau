@@ -57,6 +57,7 @@ local function addActor(uniqueKey: string, data: {[string]: any})
     actorModel.Parent = ActorClonesWorkspace
 
     Animation.LoadCharacter(actorModel, uniqueKey)
+    Animation.PlayAnimation:Fire(data.state, uniqueKey)
 
     local billboard = ActorBillboards:FindFirstChild("ActorBillboard")
     billboard.Name = uniqueKey
