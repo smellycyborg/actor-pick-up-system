@@ -12,6 +12,7 @@ function Actor.Spawn(
     mutation: string, 
     size: Vector3 | number,
     position: Vector3,
+    moveToPosition: Vector3,
     state: string | nil)
 
     local data = {}
@@ -20,6 +21,7 @@ function Actor.Spawn(
     data.mutation = mutation
     data.size = size
     data.position = position
+    data.moveToPosition = moveToPosition
     data.state = state or DEFAULT_STATE
 
     Actors[uniqueKey] = data
