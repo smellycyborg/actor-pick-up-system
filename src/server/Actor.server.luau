@@ -7,10 +7,11 @@ local Modules = ReplicatedStorage.Modules
 
 local Actor = require(Modules.Actor)
 
-local MAX_ACTORS = 30
+local MAX_ACTORS = 3
 local DEFAULT_MAX_TIME = 300
-local DEFAULT_MUTATE_CHANCE = 0.1
-local SLOW_WALK_SPEED = 13
+local DEFAULT_MUTATE_CHANCE = 0.001
+local SLOW_WALK_SPEED = 3
+local NORMAL_WALK_SPEED = 16
 
 local TimeElapsedPerActor = {}
 
