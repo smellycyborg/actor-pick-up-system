@@ -43,11 +43,7 @@ Actor.OnTriggeredPrompt:Connect(function(player)
 end)
 
 RunService.PostSimulation:Connect(function(step: number)
-    for uniqueKey, timeElapsed in Actor.GetActors() do
-        if not TimeElapsedPerActor[uniqueKey] then
-            TimeElapsedPerActor[uniqueKey] = 0
-        end
-
+    for uniqueKey, timeElapsed in TimeElapsedPerActor do
         if math.random() < DEFAULT_MUTATE_CHANCE then
             local mutation = ""
             Actor.Mutate(uniqueKey, mutation)
