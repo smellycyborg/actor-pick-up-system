@@ -58,7 +58,8 @@ end
 local function addActor(uniqueKey: string, data: {[string]: any})
     local actorModel = ActorClonesReplicated:FindFirstChild(data.name) :: Model
     if not actorModel then
-        error(`Actor model {data.name} does not exist in ActorModels`)
+        warn(`Actor model {data.name} does not exist in ActorModels`)
+        return
     end
 
     actorModel.Name = uniqueKey
@@ -66,17 +67,10 @@ local function addActor(uniqueKey: string, data: {[string]: any})
     actorModel:PivotTo(CFrame.new(data.position))
 
     local prompt = Instance.new("ProximityPrompt")
+    prompt.RequiresLineOfSight = false
     prompt.Triggered:Connect(function(playerTriggered: Player)
-        if ActorsPickedUp[uniqueKey] then
-            return
-        end
-
-        prompt.Enabled = false
-
-        ActorsPickedUp[uniqueKey] = playerTriggered.UserId
-
         if playerTriggered == player then
-            Actor.TriggeredPrompt:FireServer()
+            Actor.TriggeredPrompt:FireServer(uniqueKey)
         end
     end)
     prompt.Parent = actorModel.PrimaryPart
