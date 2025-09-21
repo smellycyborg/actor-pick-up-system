@@ -229,7 +229,6 @@ Actor.OnUpdate:Connect(function(currentActors: any)
             end
         end
     end
-    Actors = currentActors
 end)
 
 RunService.PreSimulation:Connect(function(step: number)
