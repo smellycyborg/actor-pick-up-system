@@ -92,6 +92,12 @@ local function addActor(uniqueKey: string, data: {[string]: any})
     billboard.Enabled = true
 
     setBillboardText(billboard, data)
+
+    local actorHumanoid = actorModel:FindFirstChild("Humanoid", true) :: Humanoid
+    if not actorHumanoid then
+        return
+    end
+    actorHumanoid:MoveTo(data.moveToPosition)
 end
 
 local function removeActor(uniqueKey: string)
