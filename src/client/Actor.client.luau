@@ -142,7 +142,7 @@ task.spawn(function()
     until #ActorModels:GetChildren() >= ACTOR_MODELS_AMOUNT
     or timeElapsed >= 10
 
-    for _, model in ActorModels do
+    for _, model in ActorModels:GetChildren() do
         for i = 1, OBJECT_AMOUNT do
             local clone = model:Clone()
             clone.Parent = ActorClonesReplicated
