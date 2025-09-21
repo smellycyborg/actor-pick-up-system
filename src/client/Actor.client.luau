@@ -36,6 +36,21 @@ ActorBillboards.Name = "ActorBillboards"
 
 
 
+local function setBillboardText(billboard, data)
+    for nameKey, value in data do
+        for _, element: TextLabel in billboard:GetDescendants() do
+            if not element:IsA("TextLabel") then
+                continue
+            end
+            if string.find(string.lower(element.Name), nameKey) then
+                element.Text = value
+            elseif element.Name == "TimeLeftLabel" then
+                element.Text = DEFAULT_DESPAWN_TIME
+            end
+        end
+    end
+end
+
 local function addActor(uniqueKey: string, data: {[string]: any})
     local actorModel = ActorClonesReplicated:FindFirstChild(data.name) :: Model
     if not actorModel then
@@ -64,18 +79,7 @@ local function addActor(uniqueKey: string, data: {[string]: any})
     billboard.Adornee = actorModel.PrimaryPart
     billboard.Enabled = true
 
-    for nameKey, value in data do
-        for _, element: TextLabel in billboard:GetDescendants() do
-            if not element:IsA("TextLabel") then
-                continue
-            end
-            if string.find(string.lower(element.Name), nameKey) then
-                element.Text = value
-            elseif element.Name == "TimeLeftLabel" then
-                element.Text = DEFAULT_DESPAWN_TIME
-            end
-        end
-    end
+    setBillboardText(billboard, data)
 end
 
 local function removeActor(uniqueKey: string)
@@ -179,7 +183,10 @@ RunService.PreSimulation:Connect(function(step: number)
 
             SpawnInfoPerActor[actorKey].timeLeft -= 1
 
-            -- TODO:  Update billboard depsawn time
+            local actorBillboard = ActorBillboards:FindFirstChild(actorKey)
+            if actorBillboard then
+                setBillboardText(actorBillboard, data)
+            end
         end
     end
 
