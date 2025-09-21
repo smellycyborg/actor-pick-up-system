@@ -156,6 +156,16 @@ for i = 1, MAX_ACTOR_BILLBOARDS do
     clone.Parent = ActorBillboards
 end
 
+for _, part in BaseParts:GetChildren() do
+    table.insert(filterTab, part)
+end
+raycastParams.FilterDescendantsInstances = filterTab
+BaseParts.ChildAdded:Connect(function(child)
+    table.insert(filterTab, child)
+    raycastParams.FilterDescendantsInstances = filterTab
+end)
+
+
 
 
 Players.PlayerRemoving:Connect(function(otherPlayer: Player)
