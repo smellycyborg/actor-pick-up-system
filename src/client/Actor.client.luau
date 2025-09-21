@@ -111,6 +111,25 @@ local function removeActor(uniqueKey: string)
     Actors[uniqueKey] = nil
 end
 
+local function dropActor(uniqueKey: string)
+    if ActorsPickedUp[uniqueKey] then
+        ActorsPickedUp[uniqueKey] = nil
+
+        local actorModel = ActorClonesWorkspace:FindFirstChild(uniqueKey)
+        if not actorModel then
+            return
+        end
+
+        actorModel.PrimaryPart.Anchored = false
+
+        local prompt = actorModel:FindFirstChild("ProximityPrompt", true)
+        prompt.RequiresLineOfSight = false
+        prompt.Enabled = true
+
+        -- TODO: delay/ set new move to position/ state 
+    end
+end
+
 
 
 
