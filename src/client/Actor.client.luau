@@ -169,13 +169,9 @@ Actor.OnDropActor:Connect(function(uniqueKey: string)
 
         actorModel.PrimaryPart.Anchored = false
 
-        local prompt = actorModel:FindFirstChild("ProximityPrompt", true)
-        if prompt then
-            prompt.Enabled = true
-        end
 
-        -- TODO: delay/ set new move to position/ state 
-    end
+Actor.OnDrop:Connect(function(uniqueKey: string)
+    dropActor(uniqueKey)
 end)
 
 Actor.OnUpdate:Connect(function(currentActors: any)
