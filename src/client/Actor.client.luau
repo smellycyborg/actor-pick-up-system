@@ -158,7 +158,15 @@ end
 
 
 
-Actor.OnDropActor:Connect(function(uniqueKey: string)
+Players.PlayerRemoving:Connect(function(otherPlayer: Player)
+    for actorKey, userId in ActorsPickedUp do
+        if userId == otherPlayer.UserId then
+            dropActor(actorKey)
+            break
+        end
+    end
+end)
+
     if ActorsPickedUp[uniqueKey] then
         ActorsPickedUp[uniqueKey] = nil
 
