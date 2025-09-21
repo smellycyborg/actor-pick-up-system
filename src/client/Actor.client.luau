@@ -217,6 +217,12 @@ RunService.PreSimulation:Connect(function(step: number)
         local actorModel = ActorClonesWorkspace:FindFirstChild(actorKey)
         if not actorModel then
             continue
+        else
+            for _, part in actorModel:GetDescendants() do
+                if part:IsA("BasePart") then
+                    part.CanCollide = false
+                end
+            end
         end
 
         local newCFrame = rootPart.CFrame -- TODO: get the offset cframe
